@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue 笔记</title>
+</head>
+<body>
+
+    <div id="app">
+        <input type="text" placeholder="请输入0或1" v-model="show" />
+        <p>1、v-if指令:<span v-if="show==1">当show的值为1时显示，0不显示</span></p>
+
+        <p>2、v-on:监听DOM事件:
+            <input type="button" v-on:click="doSomething" value="click"/>
+        </p>
+
+        <p>3、4、缩写v-on:'@'
+            <input type="button" @click="doSomething" value="click"/>
+        </p>
+
+        <p>5、计算属性
+            <input type="text" placeholder="请输入" v-model="message" />
+            <p>倒排 message: "{{ reversedMessage }}"</p>
+        </p>
+        <p>6、7、参见代码或console输出</p>
+
+        <p>8、监听器的用法
+            <input type="text" placeholder="请输入" v-model="question" />
+        <p>question: "{{ question }}"</p>
+        </p>
+
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded",function () {
+            let data={
+                message:"hello,Vue",
+                id:1,
+                show:1,
+                doSomething:function () {
+                    alert("监听事件DOM事件")
+                },
+                firstName:'ma',
+                lastName:'xh',
+                question:''
+            };
+
+            let computed={
+                // 计算属性的 getter
+                reversedMessage: function () {
+                    console.info('计算属性变化---------------');
+                    return this.message.split('').reverse().join('')
+                },
+
+                //7、计算属性的set和get写法
+                fullName: {
+                    // getter
+                    get: function () {
+                        return this.firstName + ' ' + this.lastName
+                    },
+                    // setter
+                    set: function (newValue) {
+                        var names = newValue.split(' ')
+                        this.firstName = names[0]
+                        this.lastName = names[names.length - 1]
+                    }
+                }
+            };
+
+            let methods={
+                reversedMessageMethod: function () {
+                    console.info('方法变化---------------');
+                    return this.message.split('').reverse().join('')
+                }
+            };
+
+            //8、监听器的用法
+            let watch= {
+                // 如果 `question` 发生改变，这个函数就会运行
+                question: function (newQuestion, oldQuestion) {
+                    console.info('监听器----------------');
+                    console.info(this.question);
+                }
+            }
+
+            var vm=new Vue({el:'#app',data:data,computed:computed,methods:methods,watch:watch});
+
+            //5、计算属性,连续使用两次计算属性，如果计算属性关联的变量不发生变化，则调用的是缓存，不会触发
+            //计算属性内部的执行
+            console.info(vm.reversedMessage);//只触发一次
+            console.info(vm.reversedMessage);
+
+            //6、方法,连续使用两次方法，不论方法关联的变量发不发生变化，都会触发方法内部的执行
+            console.info(vm.reversedMessageMethod());//每次都触发
+            console.info(vm.reversedMessageMethod());//每次都触发
+
+
+
+        },false);
+    </script>
+</body>
+</html>

@@ -28,6 +28,8 @@
         <input type="text" placeholder="请输入" v-model="name1" />
         <p>6、只用当Vue实例创建时传入的data才会建立绑定，后续在data中增加的属性不会建立绑定关系:<span>{{name1}}</span></p>
 
+        <p>7、8、9、参见代码或console输出</p>
+
     </div>
 
     <script src="../js/vue.js"></script>
@@ -43,7 +45,14 @@
             data.name1="maxh";
             //7、在创建实例前执行了Object.freeze(data)可以解除绑定关系，不会响应
             // Object.freeze(data);
-            var vm=new Vue({el:'#app',data:data});
+            var vm=new Vue({el:'#app',data:data,
+                //9、生命周期钩子
+                created:function () {
+                    // `this` 指向 vm 实例
+                    console.log('created this is : ----------');
+                    console.log(this);
+                    console.log(this.$data);
+                }});
             //6、只用当Vue实例创建时传入的data才会建立绑定，后续在data中增加的属性不会建立绑定关系
 
             //8、调用实例属性或方法
