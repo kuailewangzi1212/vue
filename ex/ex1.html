@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue 笔记</title>
+</head>
+<body>
+
+    <div id="app">
+        <input type="text" placeholder="请输入" v-model="message" />
+        <br />
+        <span>1、{{ message }}</span>
+        <br />
+        <div v-once>2、once: {{ message }}
+            <br/>
+            <span>once内部没有设置once的标签:{{ message }}</span>
+            <br/>
+            <input type="text" placeholder="请输入" v-model="message" />
+        </div>
+
+        <p>3、输出html:<span v-html="htmlTxt"></span></p>
+
+        <p>4、v-bind:<span v-bind:style="color">ddddddd</span></p>
+
+        <input type="text" placeholder="请输入id" v-model="id" />
+        <p>5、模板表达式:<span>{{id+1}}</span></p>
+
+        <input type="text" placeholder="请输入" v-model="name1" />
+        <p>6、只用当Vue实例创建时传入的data才会建立绑定，后续在data中增加的属性不会建立绑定关系:<span>{{name1}}</span></p>
+
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded",function () {
+            let data={
+                message:"hello,Vue",
+                htmlTxt:"<div style='color:red;'>I am html div</div>",
+                color:"color:red",
+                id:1
+            };
+
+            data.name1="maxh";
+            //7、在创建实例前执行了Object.freeze(data)可以解除绑定关系，不会响应
+            // Object.freeze(data);
+            var vm=new Vue({el:'#app',data:data});
+            //6、只用当Vue实例创建时传入的data才会建立绑定，后续在data中增加的属性不会建立绑定关系
+
+            //8、调用实例属性或方法
+            //8.1、实例属性
+            console.info('输出实例属性data:-------');
+            console.info(vm.$data);
+            //8.2、实例方法
+            vm.$watch('message', function (newValue, oldValue) {
+                // 这个回调将在 `vm.a` 改变后调用
+                console.info('监控message变化-------');
+                console.info(newValue);
+            })
+
+
+
+        },false);
+    </script>
+</body>
+</html>
