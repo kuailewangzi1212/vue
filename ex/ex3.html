@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件</title>
+</head>
+<body>
+
+    <div id="app">
+        <button-counter></button-counter>
+        <blog-post :post-title="postTitle" :title="title" :age="age" :arr="arr"></blog-post>
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded",function () {
+            //注册全局组件
+            Vue.component('button-counter', {
+                data: function () {
+                    return {
+                        count: 0
+                    }
+                },
+                template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+            });
+
+            Vue.component('blog-post', {
+                // 在 JavaScript 中是 camelCase 的
+                // props: {postTitle:String,title:String,age:Number,arr:Object},
+                props: ['postTitle','title','age','arr'],
+                template: '<h3>{{ postTitle }}---<h3>{{ title }}</h3>---<h3>{{ age }}</h3><ul><li v-for="(itm,index) in arr">{{itm.name}}</li></ul></h3>'
+            })
+
+            //
+            new Vue({ el: '#app' ,
+                data:{
+                    postTitle:'博客标题',
+                    title:'title',
+                    age:1,
+                    arr:[{name:'maxh'},{name:'zmm'},{name:'myc'},{name:'myx'}]
+                }
+            });
+        },false);
+    </script>
+</body>
+</html>
